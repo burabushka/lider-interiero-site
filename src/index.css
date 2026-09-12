@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #100c0a;
+  --color-choco: #241711;
+  --color-milk: #f3eee8;
+  --color-darktext: #1a120d;
+  --color-gold: #d99a27;
+  --color-gold-light: #ffd875;
+  --color-gold-dark: #9a5d12;
+  --color-gold-glow: #fff1b2;
+  --font-display: "Benzin Regular", "Montserrat", ui-sans-serif, sans-serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root { --gold-metal: linear-gradient(90deg, #9a5d12, #d99a27, #ffd875, #d99a27, #9a5d12); }
+
+html, body, #root { height: 100%; }
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-milk);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: rgba(217,154,39,0.28); color: #fff; }
+
+* { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+*:hover { scrollbar-color: rgba(217,154,39,0.35) transparent; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: transparent; border-radius: 999px; }
+body:hover ::-webkit-scrollbar-thumb { background: rgba(217,154,39,0.3); }
+*:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; border-radius: 4px; }
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
+  .text-gold-metal { background: var(--gold-metal); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .bevel-gold { background: var(--gold-metal); }
+  .draft-line { background: linear-gradient(90deg, transparent, rgba(217,154,39,0.25) 12%, rgba(255,216,117,0.8) 50%, rgba(217,154,39,0.25) 88%, transparent); }
+}
+
+@keyframes rise { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+.rise { animation: rise 0.8s cubic-bezier(0.22,1,0.36,1) both; }
+@keyframes sheen { 0% { transform:translateX(-140%) skewX(-20deg); } 100% { transform:translateX(240%) skewX(-20deg); } }
+@keyframes fadeIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.fade-in { animation: fadeIn 0.5s cubic-bezier(0.22,1,0.36,1) both; }
+@keyframes drawLine { from { stroke-dashoffset: var(--len,400); } to { stroke-dashoffset:0; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration:0.001ms!important; transition-duration:0.001ms!important; } }

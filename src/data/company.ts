@@ -1,0 +1,15 @@
+export const COMPANY = {
+  companyName: "Лидер интерьера",
+  phoneDisplay: "+7 (977) 092-69-24",
+  phoneRaw: "+79770926924",
+  address: "г. Самара, ул. Революционная, 70, секция 309, 3 этаж",
+  addressLines: ["Самара,", "ул. Революционная, 70,", "секция 309, 3 этаж"],
+  email: "mff_interio@mail.ru",
+  vkUrl: "https://vk.me/interiostar63",
+  vkCommunity: "https://vk.com/interiostar63",
+  telegramUrl: "https://t.me/MFF_LIG",
+  telegramChannel: "https://t.me/interiostar_sam",
+  website: "https://interio-star.ru/",
+  maxUrl: "",
+  showMax: false,
+} as const;

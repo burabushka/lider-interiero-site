@@ -1,0 +1,14 @@
+import { useEffect, useRef, useState } from "react";
+import { submitLead } from "../lib/lead";
+import { CloseIcon } from "./icons";
+import { NameField, PhoneField, validatePhone } from "./LeadFields";
+import SuccessState from "./SuccessState";
+import { GoldButton } from "./ui";
+export default function LeadModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [name, setName] = useState(""); const [phone, setPhone] = useState(""); const [error, setError] = useState<string>(); const [sent, setSent] = useState(false); const [busy, setBusy] = useState(false); const dialogRef = useRef<HTMLDivElement>(null);
+  useEffect(() => { if (!open) return; const onKey = (e: KeyboardEvent) => { if (e.key==="Escape") onClose(); }; document.addEventListener("keydown", onKey); const prev = document.body.style.overflow; document.body.style.overflow="hidden"; return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow=prev; }; }, [open, onClose]);
+  useEffect(() => { if (!open) { const t = setTimeout(() => { setSent(false); setName(""); setPhone(""); setError(undefined); }, 250); return () => clearTimeout(t); } }, [open]);
+  if (!open) return null;
+  const handleSubmit = async (e: React.FormEvent) => { e.preventDefault(); const err = validatePhone(phone); setError(err ?? undefined); if (err) return; setBusy(true); await submitLead({ name, phone, source: "lead-modal" }); setBusy(false); setSent(true); };
+  return <div className="fixed inset-0 z-[130] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Обсудим Ваш проект"><div className="fade-in absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} /><div ref={dialogRef} className="rise relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-[rgba(217,154,39,0.22)] bg-choco p-8 shadow-[0_40px_120px_rgba(0,0,0,0.6)] sm:p-10"><span className="draft-line pointer-events-none absolute inset-x-0 top-0 h-px" /><button type="button" onClick={onClose} aria-label="Закрыть" className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full text-milk/60 transition-colors hover:bg-white/5 hover:text-milk"><CloseIcon className="h-5 w-5" /></button>{sent ? <SuccessState /> : <form onSubmit={handleSubmit} className="flex flex-col gap-5"><h3 className="font-display text-2xl uppercase text-milk sm:text-[26px]">Обсудим ваш проект</h3><p className="-mt-2 text-[14px] leading-relaxed text-milk/55">Оставьте контакты — Ирина свяжется и подскажет, с чего начать.</p><NameField value={name} onChange={setName} /><PhoneField value={phone} onChange={setPhone} error={error} /><GoldButton type="submit" disabled={busy} className="mt-2 w-full disabled:opacity-70">{busy ? "Отправляем…" : "Оставить заявку"}</GoldButton><p className="text-center text-[11px] leading-relaxed text-milk/40">Нажимая кнопку, Вы соглашаетесь на обработку персональных данных.</p></form>}</div></div>;
+}

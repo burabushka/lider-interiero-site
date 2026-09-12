@@ -1,0 +1,3 @@
+export default function QuizProgress({ current, total }: { current: number; total: number }) {
+  return <ol className="flex gap-4 lg:flex-col lg:gap-0" aria-label="Прогресс квиза">{Array.from({ length: total }, (_, i) => { const n=i+1; const active=n===current; const done=n<current; return <li key={n} className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-0"><span className={"font-display text-sm tabular-nums transition-colors duration-500 "+(active ? "text-gold-metal" : done ? "text-milk/60" : "text-milk/25")}>{String(n).padStart(2,"0")}</span>{n<total && <span className={"hidden h-8 w-px transition-colors duration-500 lg:my-2 lg:block "+(done ? "bg-[rgba(217,154,39,0.5)]" : "bg-white/10")} />}</li>; })}</ol>;
+}
